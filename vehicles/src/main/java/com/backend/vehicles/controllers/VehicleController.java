@@ -24,22 +24,19 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public Vehicle findById(@PathVariable int id) {
-
-        if (vehiclesService.findById(id) == null) {
-            throw new ResourceNotFoundExeption("vehicle not found");
-        }
         return vehiclesService.findById(id);
     }
+
 
     @PostMapping
     public Vehicle save(@RequestBody Vehicle vehicle) {
 
         if (vehiclesService.existsByPlate(vehicle.getPlate())) {
-            throw new InvalidDataException("plate already exists");
+            throw new InvalidDataException("the plate already exists");
         }
 
         if (vehicle.getPlate() == null || vehicle.getPlate().isEmpty()) {
-            throw new InvalidDataException("plate cannot be empty");
+            throw new InvalidDataException("the plate cannot be empty");
         }
 
         if (vehicle.getModel() == null) {
@@ -51,11 +48,7 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
-
-        if (vehiclesService.findById(id) == null) {
-            throw new ResourceNotFoundExeption("vehicle not found");
-        }
-
+        vehiclesService.findById(id);
         vehiclesService.deleteById(id);
     }
 

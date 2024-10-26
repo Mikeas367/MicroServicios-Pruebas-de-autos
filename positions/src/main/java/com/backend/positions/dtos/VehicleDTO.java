@@ -1,4 +1,4 @@
-package com.backend.positions.models;
+package com.backend.positions.dtos;
 
 import lombok.Data;
 

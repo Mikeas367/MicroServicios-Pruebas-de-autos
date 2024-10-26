@@ -45,9 +45,7 @@ public class BrandController {
 
     @DeleteMapping("/{id}")
     public void deleteBrand(@PathVariable int id) {
-        if (brandService.findById(id) == null) {
-            throw new ResourceNotFoundExeption("brand not found");
-        }
+        brandService.findById(id);
         brandService.deleteById(id);
     }
 }

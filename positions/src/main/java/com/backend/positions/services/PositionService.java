@@ -1,5 +1,6 @@
 package com.backend.positions.services;
 
+import com.backend.positions.exceptions.ResourceNotFoundException;
 import com.backend.positions.models.Position;
 import com.backend.positions.repositories.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ public class PositionService {
     }
 
     public Position findById(int id) {
-        return positionRepository.findById(id).get();
+
+        return positionRepository
+                .findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("position not found"));
     }
     public Position save(Position position) {
         return positionRepository.save(position);

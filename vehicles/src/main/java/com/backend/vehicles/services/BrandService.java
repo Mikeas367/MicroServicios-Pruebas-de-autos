@@ -1,5 +1,6 @@
 package com.backend.vehicles.services;
 
+import com.backend.vehicles.exceptions.ResourceNotFoundExeption;
 import com.backend.vehicles.models.Brand;
 import com.backend.vehicles.repositories.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class BrandService {
     }
 
     public Brand findById(int id) {
-        return brandRepository.findById(id).get();
+        return brandRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundExeption("brand with id: " + id + " not found"));
     }
     public void deleteById(int id) {
         brandRepository.deleteById(id);

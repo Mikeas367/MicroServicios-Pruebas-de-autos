@@ -1,5 +1,6 @@
 package com.backend.vehicles.services;
 
+import com.backend.vehicles.exceptions.ResourceNotFoundExeption;
 import com.backend.vehicles.models.Vehicle;
 import com.backend.vehicles.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class VehiclesService {
     }
 
     public Vehicle findById(int id) {
-        return vehicleRepository.findById(id).get();
+        return vehicleRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundExeption("Vehicle with id: " + id + " not found"));
     }
 
     public void deleteById(int id) {

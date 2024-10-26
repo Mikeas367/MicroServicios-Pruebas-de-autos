@@ -21,9 +21,6 @@ public class ModelController {
     }
     @GetMapping("/{id}")
     public Model getModelById(@PathVariable int id) {
-        if (modelService.findById(id) == null) {
-            throw new ResourceNotFoundExeption("model not found");
-        }
         return modelService.findById(id);
     }
 
@@ -40,9 +37,7 @@ public class ModelController {
 
     @DeleteMapping("/{id}")
     public void deleteModel(@PathVariable int id) {
-        if (modelService.findById(id) == null) {
-            throw new ResourceNotFoundExeption("model not found");
-        }
+        modelService.findById(id);
         modelService.deleteById(id);
     }
 }
