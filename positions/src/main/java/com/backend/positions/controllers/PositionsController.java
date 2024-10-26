@@ -34,4 +34,11 @@ public class PositionsController {
     public List<Position> findAll() {
         return positionService.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        positionService.deleteById(id);
+    }
+
+
 }

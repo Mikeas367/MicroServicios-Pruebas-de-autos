@@ -25,8 +25,12 @@ public class VehiclesService {
         return vehicleRepository.findById(id).get();
     }
 
-    public void delete(int id) {
+    public void deleteById(int id) {
         vehicleRepository.deleteById(id);
+    }
+
+    public boolean existsByPlate(String plate) {
+        return vehicleRepository.existsByplate(plate);
     }
 
 }

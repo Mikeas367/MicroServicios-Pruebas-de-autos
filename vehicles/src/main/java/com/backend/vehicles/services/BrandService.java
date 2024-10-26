@@ -23,7 +23,11 @@ public class BrandService {
     public Brand findById(int id) {
         return brandRepository.findById(id).get();
     }
-    public void delete(int id) {
+    public void deleteById(int id) {
         brandRepository.deleteById(id);
+    }
+
+    public boolean existsByName(String name) {
+        return brandRepository.existsByBrandName(name);
     }
 }

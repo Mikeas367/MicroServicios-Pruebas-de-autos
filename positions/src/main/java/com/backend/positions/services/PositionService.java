@@ -23,7 +23,7 @@ public class PositionService {
     public Position save(Position position) {
         return positionRepository.save(position);
     }
-    public void delete(Position position) {
-        positionRepository.delete(position);
+    public void deleteById(int id) {
+        positionRepository.deleteById(id);
     }
 }

@@ -24,8 +24,13 @@ public class ModelService {
         return modelRepository.findById(id).get();
     }
 
-    public void delete(int id) {
+    public void deleteById(int id) {
         modelRepository.deleteById(id);
     }
+
+    public boolean existsByModelName(String name) {
+        return modelRepository.existsModelByModelName(name);
+    }
+
 
 }

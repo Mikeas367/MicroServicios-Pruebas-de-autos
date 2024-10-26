@@ -20,4 +20,6 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "model_id")
     private Model model;
+
+
 }
