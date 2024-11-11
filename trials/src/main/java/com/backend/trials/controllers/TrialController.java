@@ -1,13 +1,12 @@
 package com.backend.trials.controllers;
 
 import com.backend.trials.models.Trial;
-import com.backend.trials.services.EmployeeDTOService;
-import com.backend.trials.services.InterestedDTOService;
 import com.backend.trials.services.TrialService;
-import com.backend.trials.services.VehicleDTOService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -16,12 +15,6 @@ public class TrialController {
 
     @Autowired
     private TrialService trialService;
-    @Autowired
-    private EmployeeDTOService employeeDTOService;
-    @Autowired
-    private InterestedDTOService interestedDTOService;
-    @Autowired
-    private VehicleDTOService vehicleDTOService;
 
     @GetMapping
     public List<Trial> getAll() {
@@ -39,11 +32,26 @@ public class TrialController {
         trialService.delete(id);
     }
 
-    @PostMapping
-    public Trial create(@RequestBody Trial trial) {
-        employeeDTOService.findById(trial.getEmployeeId());
-        interestedDTOService.getInterestedById(trial.getInterestedId());
-        vehicleDTOService.findById(trial.getVehicleId());
-        return trialService.save(trial);
+    // endpoint para comenzar una prueba
+    @PostMapping("/start")
+    public Trial startTrial(@RequestBody Trial trial) {
+        return trialService.startTrial(trial);
     }
+
+    @PutMapping("/end/{id}")
+    public Trial endTrial(@PathVariable int id) {
+        return trialService.endTrial(id);
+    }
+    // VERIFICAR QUE FUNCIONE
+    @GetMapping("/active-since/{date}")
+    public List<Trial> getActiveSinceDate(
+            @PathVariable("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime date) {
+        // se parsea la fecha que me dan como path variable
+        System.out.println("FECHA =>" + date);
+        return trialService.getTrialsByDate(date);
+    }
+
+
 }

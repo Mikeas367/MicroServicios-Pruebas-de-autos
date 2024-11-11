@@ -19,10 +19,10 @@ public class Position {
     private LocalDateTime fechaHora;
 
     @Column(nullable = false)
-    private int latitude;
+    private double latitude;
 
     @Column(nullable = false)
-    private int longitude;
+    private double longitude;
 
     @PrePersist
     protected void onCreate() {

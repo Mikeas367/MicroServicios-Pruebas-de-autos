@@ -14,7 +14,7 @@ public class VehicleDTOService {
     private RestTemplate restTemplate;
 
     public VehicleDTO findById(int id) {
-        String url = "http://localhost:8080/vehicles/" + id;
+        String url = "http://localhost:8080/api/vehicles/" + id;
         try {
             return restTemplate.getForObject(url, VehicleDTO.class);
         } catch (HttpClientErrorException e) {
