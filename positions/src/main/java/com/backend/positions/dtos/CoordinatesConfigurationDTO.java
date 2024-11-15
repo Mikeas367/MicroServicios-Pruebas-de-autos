@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class CoordinatesConfigurationDTO {
-    private CoordinatesDTO agency;
-    private double ratio;
-    private List<RestrictedAreasDTO> restrictedAreas;
+    private CoordinatesDTO coordenadasAgencia;
+    private double radioAdmitidoKm;
+    private List<RestrictedAreasDTO> zonasRestringidas;
 }

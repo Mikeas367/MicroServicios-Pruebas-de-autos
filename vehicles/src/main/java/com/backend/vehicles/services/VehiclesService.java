@@ -1,5 +1,6 @@
 package com.backend.vehicles.services;
 
+import com.backend.vehicles.exceptions.InvalidDataException;
 import com.backend.vehicles.exceptions.ResourceNotFoundExeption;
 import com.backend.vehicles.models.Vehicle;
 import com.backend.vehicles.repositories.VehicleRepository;
@@ -33,6 +34,28 @@ public class VehiclesService {
 
     public boolean existsByPlate(String plate) {
         return vehicleRepository.existsByplate(plate);
+    }
+
+    public Vehicle findByPlate(String plate) {
+        if (!existsByPlate(plate)) {
+            throw new ResourceNotFoundExeption("Vehicle with plate: " + plate + " not found");
+        }
+        return vehicleRepository.findVehicleByPlate(plate);
+    }
+
+    public boolean validateVehicle(Vehicle vehicle) {
+        if (existsByPlate(vehicle.getPlate())) {
+            throw new InvalidDataException("the plate already exists");
+        }
+
+        if (vehicle.getPlate() == null || vehicle.getPlate().isEmpty()) {
+            throw new InvalidDataException("the plate cannot be empty");
+        }
+
+        if (vehicle.getModel() == null) {
+            throw new InvalidDataException("The model cannot be empty");
+        }
+        return true;
     }
 
 }

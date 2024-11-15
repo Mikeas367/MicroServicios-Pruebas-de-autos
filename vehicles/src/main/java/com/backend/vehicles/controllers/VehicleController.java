@@ -27,22 +27,15 @@ public class VehicleController {
         return vehiclesService.findById(id);
     }
 
+    @GetMapping("/find-by-plate/{plate}")
+    public Vehicle findByPlate(@PathVariable String plate) {
+        return vehiclesService.findByPlate(plate);
+    }
+
 
     @PostMapping
     public Vehicle save(@RequestBody Vehicle vehicle) {
-
-        if (vehiclesService.existsByPlate(vehicle.getPlate())) {
-            throw new InvalidDataException("the plate already exists");
-        }
-
-        if (vehicle.getPlate() == null || vehicle.getPlate().isEmpty()) {
-            throw new InvalidDataException("the plate cannot be empty");
-        }
-
-        if (vehicle.getModel() == null) {
-            throw new InvalidDataException("The model cannot be empty");
-        }
-
+        vehiclesService.validateVehicle(vehicle);
         return vehiclesService.save(vehicle);
     }
 

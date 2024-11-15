@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RestrictedAreasDTO {
-    private CoordinatesDTO northwest;
-    private CoordinatesDTO southeast;
+    private CoordinatesDTO noroeste;
+    private CoordinatesDTO sureste;
 }
