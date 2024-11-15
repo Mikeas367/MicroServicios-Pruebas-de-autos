@@ -1,29 +1,28 @@
 package com.backend.positions.services;
 
+import com.backend.positions.dtos.CoordinatesConfigurationDTO;
 import com.backend.positions.dtos.ErrorDTO;
 import com.backend.positions.dtos.VehicleDTO;
 import com.backend.positions.exceptions.ResourceNotFoundException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import javax.print.DocFlavor;
 
 @Service
-public class VehicleDTOService {
+public class CoordinatesConfigurationDTOService {
     @Autowired
-    private RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
-    public VehicleDTO findById(int id) {
-        String url = "http://localhost:8080/api/vehicles/" + id;
+    public CoordinatesConfigurationDTO getCoordinatesConfigurationDTO() {
+        String url = "https://labsys.frc.utn.edu.ar/apps-disponibilizadas/backend/api/v1/configuracion/";
         try {
-            return restTemplate.getForObject(url, VehicleDTO.class);
+            return restTemplate.getForObject(url, CoordinatesConfigurationDTO.class);
         } catch (HttpClientErrorException e) {
             ErrorDTO errorDTO = ErrorDTO.builder().message(e.getMessage()).build();
             throw new ResourceNotFoundException(errorDTO.getMessage());
         }
     }
-
 }

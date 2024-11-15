@@ -6,7 +6,6 @@ import com.backend.trials.repositories.TrialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +30,6 @@ public class TrialService {
         return trialRepository
                 .findById(id)
                 .orElseThrow(()-> new ResourceNotFoundExeption("trial not found"));
-    }
-
-    public Trial save(Trial trial){
-        return trialRepository.save(trial);
     }
 
     public void delete(int id){
@@ -70,4 +65,9 @@ public class TrialService {
     public List<Trial> getTrialsByDate(LocalDateTime date){
         return trialRepository.findByTrialStartDateAfterAndTrialEndDateIsNull(date);
     }
+
+    public List<Trial> getActiveTrials(){
+        return trialRepository.findAllByTrialEndDateIsNull();
+    }
+
 }

@@ -13,4 +13,7 @@ public interface TrialRepository extends JpaRepository<Trial, Integer> {
     boolean existsByVehicleIdAndTrialEndDateIsNull(int vehicleId);
 
     List<Trial> findByTrialStartDateAfterAndTrialEndDateIsNull(LocalDateTime date);
+
+    List<Trial> findAllByTrialEndDateIsNull();
+
 }

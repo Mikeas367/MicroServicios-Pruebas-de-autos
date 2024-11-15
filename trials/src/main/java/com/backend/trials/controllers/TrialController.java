@@ -42,6 +42,7 @@ public class TrialController {
     public Trial endTrial(@PathVariable int id) {
         return trialService.endTrial(id);
     }
+
     // VERIFICAR QUE FUNCIONE
     @GetMapping("/active-since/{date}")
     public List<Trial> getActiveSinceDate(
@@ -53,5 +54,9 @@ public class TrialController {
         return trialService.getTrialsByDate(date);
     }
 
+    @GetMapping("/actives")
+    public List<Trial> getActivesTrials() {
+        return trialService.getActiveTrials();
+    }
 
 }
