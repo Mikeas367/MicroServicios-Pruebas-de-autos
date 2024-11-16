@@ -34,6 +34,15 @@ public class PositionService {
         return Math.round(value * 100.0) / 100.0;
     }
 
+    public Boolean isInATrial(int vehicleId, List<TrialDTO> trialsActiveDTOS){
+        for(TrialDTO trialDTO : trialsActiveDTOS){
+            if(trialDTO.getVehicleId() == vehicleId){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Boolean isInARestrictedArea(Position position, List<RestrictedAreasDTO> restrictedAreas) {
         for (RestrictedAreasDTO area : restrictedAreas) {
             // limites del area restringida
@@ -52,12 +61,6 @@ public class PositionService {
                     positionLON >= noroesteLON && positionLON <= suresteLON) { // Longitud dentro del rango
                 System.out.println("El auto " + position.getVehicleId() + " está en un área restringida.");
 
-                Notification notification = new Notification();
-                notification.setVehicleId(position.getVehicleId());
-                notification.setMessage("El pajeraso esta en un area restringida.");
-                notification.setTimestamp(LocalDateTime.now());
-                notificationRepository.save(notification);
-
                 return true;
             }
         }
@@ -65,14 +68,18 @@ public class PositionService {
         return false;
     }
 
+
     @Scheduled(fixedRate = 10000) // Cada 10 segundos
     public void updatePositions() {
         List<Position> positions = positionRepository.findAll();
+
         CoordinatesConfigurationDTO configuration = coordinatesService.getCoordinatesConfigurationDTO();
-        //System.out.println("Datos Obtenidos del servicio Externo ---->" + configuration);
-        List<TrialDTO> trialDTOS = trialService.getTrials();
-        System.out.println("Pruebas Activas ----> " + trialDTOS);
         List<RestrictedAreasDTO> restrictedAreas = configuration.getZonasRestringidas();
+        //System.out.println("Datos Obtenidos del servicio Externo ---->" + configuration);
+
+        List<TrialDTO> trialsDTOS = trialService.getTrials();
+        //System.out.println("Pruebas Activas ----> " + trialsDTOS);
+
 
         for (Position position : positions) {
             // Simular movimiento del vehículo
@@ -81,8 +88,15 @@ public class PositionService {
             position.setLongitude(round(position.getLongitude() + 0.10));
             System.out.println("Posicion actual del vehiculo ->" + position.getLatitude() + " " + position.getLongitude());
 
-            if (isInARestrictedArea(position, restrictedAreas)) {
-                System.out.println("EL AUTO ESTA RE AFUERA, LO TENEMOS Q MATAR");
+            boolean inTrial = isInATrial(position.getVehicleId(), trialsDTOS);
+            boolean inRestrictedArea = isInARestrictedArea(position, restrictedAreas);
+
+            if (inTrial && inRestrictedArea) {
+                Notification notification = new Notification();
+                notification.setVehicleId(position.getVehicleId());
+                notification.setMessage("El pajeraso esta en un area restringida.");
+                notification.setTimestamp(LocalDateTime.now());
+                notificationRepository.save(notification);
             }
 
             save(position);
